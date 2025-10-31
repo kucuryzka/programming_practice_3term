@@ -1,41 +1,71 @@
 import numpy
+import numpy as np
+
+
+def printMatrix(A):
+    if A.ndim == 1:
+        current_row = []
+        for i in range(A.shape[0]):
+            current_el = A[i]
+            if isinstance(current_el, (int, np.integer)) or (
+                    isinstance(current_el, (float, np.floating)) and current_el.is_integer()):
+                current_row.append(f"{int(current_el):d}")
+            else:
+                current_row.append(f"{current_el:.2f}")
+
+        print(" ".join(current_row))
+    else:
+        for i in range (A.shape[0]):
+            current_row = []
+            for j in range(A.shape[1]):
+                current_el = A[i, j]
+
+                if isinstance(current_el, (int, np.integer)) or (isinstance(current_el, (float, np.floating)) and current_el.is_integer()):
+                    current_row.append(f"{int(current_el):d}")
+                else:
+                    current_row.append(f"{current_el:.2f}")
+
+            print(" ".join(current_row))
+
+        print()
+
 
 print("step 1")
-my_array = numpy.array(range(10, 70, 2))
-print(my_array, "\n")
+my_array = np.arange(10, 70, 2, "float64")
+printMatrix(my_array)
 
 print("step 2")
 A = my_array.reshape((6, 5))
 A = numpy.transpose(A)
-print(A, "\n")
+printMatrix(A)
 
 print("step 3")
-A = A * 2.5
+A = A.astype(float)
+A *= 2.5
 A[0] -= 5
-print(A, "\n")
+printMatrix(A)
 
 print("step 4")
-my_array2 = numpy.array([numpy.random.randint(0, 10) for _ in range(18)])
-B = my_array2.reshape(6, 3)
-print(B, "\n")
+B = np.random.uniform(1, 11, (6,3))
+printMatrix(B)
 
 print("step 5")
-a = numpy.array([sum(A[i]) for i in range(A.shape[0])])
-b = numpy.array([sum(numpy.transpose(B)[i]) for i in range(numpy.transpose(B).shape[0])])
+a = np.sum(A, axis=0)
+b = np.sum(np.transpose(B), axis=1)
 print(a.shape)
 print(b.shape)
 
 print("step 6")
 C = numpy.dot(A, B)
-print(C, "\n")
+printMatrix(C)
 
 print("step 7")
 A = numpy.delete(A, 2, 1)
-print(A)
+printMatrix(A)
 B2 = numpy.array([numpy.random.randint(10, 20) for _ in range(18)])
 B2 = B2.reshape(6, 3)
 B = numpy.concatenate((B, B2), 1)
-print(B, "\n")
+printMatrix(B)
 
 print("step 8")
 detA = numpy.linalg.det(A)
@@ -43,13 +73,13 @@ detB = numpy.linalg.det(B)
 print(detA)
 print(detB)
 invB = numpy.linalg.inv(B)
-print(invB, "\n")
+printMatrix(invB)
 
 print("step 9")
 A6 = A**6
 B14 = B**14
-print(A6)
-print(B14, "\n")
+printMatrix(A6)
+printMatrix(B14)
 
 print("step 10, вариант 6")
 A = [[1, -4, 2, 1.4],
@@ -60,4 +90,4 @@ A = [[1, -4, 2, 1.4],
 b = [[20], [7.8], [-6], [6]]
 
 x = numpy.linalg.solve(A, b)
-print(x)
+printMatrix(x)
