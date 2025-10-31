@@ -1,0 +1,72 @@
+import math
+
+
+from scipy import integrate as int
+from scipy.optimize import minimize
+from scipy.interpolate import UnivariateSpline
+import numpy as np
+from sympy import symbols, diff, cos, sin, integrate
+
+print("вариант 6")
+print("step 1")
+
+def y(x):
+    return np.sin(2*x) / np.cos(x)
+
+x0 = 2.0
+a = 2
+b = 3
+
+x_points = np.linspace(a, b, 1000)
+y_points = y(x_points)
+
+
+spline = UnivariateSpline(x_points, y_points, s=0)
+
+
+first_derivative = spline.derivative(1) 
+second_derivative = spline.derivative(2)
+
+
+first_deriv_value = first_derivative(x0)
+second_deriv_value = second_derivative(x0)
+
+
+print(f"Первая производная: {first_deriv_value:.6f}")
+print(f"Вторая производная: {second_deriv_value:.6f}")
+
+
+print("step 2")
+x, y = symbols("x y")
+print(f"Первая производная: {diff(sin(2*x) / cos(x), x)}")
+print(f"Вторая производная: {diff(sin(2*x) / cos(x), x, 2)}")
+
+print("step 3")
+integral = int.quad(lambda x: sin(2*x) / cos(x), a, b)
+print(f"Значение определенного интеграла: {integral[0]}")
+
+print("step 4")
+print(integrate(sin(2*x) / cos(x)))
+
+
+print("step 5")
+def L(x):
+    return (x[0] - 3)**2 + (x[1] - 8)**2
+
+bounds = [(0, np.inf), (0, np.inf)]
+
+constraint1 = {'type': 'eq', 'fun': lambda x: -2*x[0] + x[1] - 2}
+constraint2 = {'type': 'ineq', 'fun': lambda x: 3*x[0] + 4*x[1] + 6}
+
+start = [1.0, 4.0]
+
+result = minimize(
+    L,
+    start,
+    method='SLSQP',  # Метод для задач с ограничениями
+    bounds=bounds,
+    constraints=[constraint1, constraint2],
+    options={'ftol': 1e-9, 'disp': True}
+)
+
+print(f"Оптимальное рещение: ({result.x[0]:.6f}, {result.x[1]:.6f})")
