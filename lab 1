@@ -1,0 +1,63 @@
+import numpy
+
+print("step 1")
+my_array = numpy.array(range(10, 70, 2))
+print(my_array, "\n")
+
+print("step 2")
+A = my_array.reshape((6, 5))
+A = numpy.transpose(A)
+print(A, "\n")
+
+print("step 3")
+A = A * 2.5
+A[0] -= 5
+print(A, "\n")
+
+print("step 4")
+my_array2 = numpy.array([numpy.random.randint(0, 10) for _ in range(18)])
+B = my_array2.reshape(6, 3)
+print(B, "\n")
+
+print("step 5")
+a = numpy.array([sum(A[i]) for i in range(A.shape[0])])
+b = numpy.array([sum(numpy.transpose(B)[i]) for i in range(numpy.transpose(B).shape[0])])
+print(a.shape)
+print(b.shape)
+
+print("step 6")
+C = numpy.dot(A, B)
+print(C, "\n")
+
+print("step 7")
+A = numpy.delete(A, 2, 1)
+print(A)
+B2 = numpy.array([numpy.random.randint(10, 20) for _ in range(18)])
+B2 = B2.reshape(6, 3)
+B = numpy.concatenate((B, B2), 1)
+print(B, "\n")
+
+print("step 8")
+detA = numpy.linalg.det(A)
+detB = numpy.linalg.det(B)
+print(detA)
+print(detB)
+invB = numpy.linalg.inv(B)
+print(invB, "\n")
+
+print("step 9")
+A6 = A**6
+B14 = B**14
+print(A6)
+print(B14, "\n")
+
+print("step 10, вариант 6")
+A = [[1, -4, 2, 1.4],
+     [2, -3.5, 9, 0],
+     [7, 5, -4, 3],
+     [1, 2, 3, 4]]
+
+b = [[20], [7.8], [-6], [6]]
+
+x = numpy.linalg.solve(A, b)
+print(x)
